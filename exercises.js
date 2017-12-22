@@ -8,6 +8,8 @@
 
 var getAllUsernames;
 
+
+
 /* #hometownCity
  *
  * Takes in an array and returns a string of the users hometown city.
