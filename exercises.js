@@ -6,7 +6,16 @@
  * @return {Array}
  */
 
-var getAllUsernames;
+var getAllUsernames = (obj)=> {
+  let newArr = []
+  //console.log(obj.data.id);
+  var users = obj.data.id;
+  for(var i in users){
+    //console.log(users[i].username);
+    newArr.push(users[i].username)
+  }
+  return newArr;
+}
 
 /* #hometownCity
  *
@@ -16,7 +25,12 @@ var getAllUsernames;
  * @return {String}
  */
 
-var hometownCity;
+var hometownCity = (arr)=> {
+//console.log(arr);
+for(var i = 0; i < arr.length; i++){
+return arr[i].hometown.state.montana.city;
+  }
+}
 
 /* #usersCurrentState
  *
@@ -27,7 +41,16 @@ var hometownCity;
  * @return {Object}
  */
 
-var usersCurrentState;
+var usersCurrentState = (data,usernames)=> {
+  
+  let bigObj = {};
+  for(var i = 0; i < data.length; i++){
+    
+    bigObj[usernames[i]] = data[i][1].currentLocation.state
+    
+  }
+  return bigObj;
+}
 
 /* #findAdmin
  *
@@ -37,7 +60,16 @@ var usersCurrentState;
  * @return {String}
  */
 
-var findAdmin;
+var findAdmin = (obj)=>{
+  let users = obj.data.id;
+  for(var i in users){
+    if(users[i].admin === true){
+      return users[i].username;
+    }
+  }
+  
+}
+
 
 /* #addNewMovie
  *
@@ -49,7 +81,10 @@ var findAdmin;
  * @return {Array}
  */
 
-var addNewMovie;
+var addNewMovie = (data, id, newMovie) => {
+ data.data.id[id].favoriteMovies.push(newMovie);
+ return data.data.id[id].favoriteMovies;
+}
 
 /* #favoriteBooks
  *
@@ -59,7 +94,17 @@ var addNewMovie;
  * @return {Array}
  */
 
-var favoriteBooks;
+var favoriteBooks = function(obj){
+  var newObj = {};
+  var users = obj.data.id;
+  for(var i = 1; i <= Object.keys(users).length; i++) {
+    var author = users[i].favoriteBook.author;
+    var title = users[i].favoriteBook.title;
+    newObj[author] = title;
+  }
+  var newArray = [newObj];
+  return newArray;
+};
 
 /* #countTracks
  *
@@ -69,7 +114,9 @@ var favoriteBooks;
  * @return {Number}
  */
 
-var countTracks;
+var countTracks = (obj)=>{
+  return Object.keys(obj.devLeague.tracks).length
+}
 
 /* #fullTimeStatus
  *
@@ -80,7 +127,12 @@ var countTracks;
  * @return {Object}
  */
 
-var fullTimeStatus;
+var fullTimeStatus = (obj,str)=>{
+  obj.cyberSecurity[0].fullTime.offered = true;
+  return obj.cyberSecurity[0].fullTime
+  
+  
+}
 
 /* #newTrack
  *
@@ -92,28 +144,468 @@ var fullTimeStatus;
  * @return {Object}
  */
 
-var newTrack;
+var newTrack = (obj,arr,str)=>{
 
-/* #studentCount
+  obj[str] = arr[0];
+
+
+return obj;
+}
+
+/* #bigDataTrack
  *
- * Takes in 2 arguments 'data' and 'trackName' and changes the selected track full time status to true.
+ * Takes in 2 arguments 'data' and 'trackName' and changes the selected track full time status to true and doubles the amount of current students attending.
+ *
+ * @param {Object}
+ * @param {String}
+ * @return {Object }
+ */
+
+var bigDataTrack = (data,trackName)=>{
+  data.tracks.bigData[0].fullTime.offered = true
+  data.tracks.bigData[0].fullTime.currentStudents = 10;
+  
+  return {[trackName] : data.tracks.bigData[0].fullTime}
+}
+
+/* #incrementAge
+ *
+ * Takes in 2 arguments 'value' and 'key' and returns key-value pairs in an object.
  *
  * @param {Object}
  * @param {String}
  * @return {Object}
  */
 
-var studentCount;
+var incrementAge = (value,key) => {
+  // value[ 32, 29, 40 ]
+  // ------------------
+  // key[ 'user1', 'user2', 'user3' ]
+  var newObj = value.reduce(function(all,items,i){
+all[key[i]] = value[i] + 1 + ' years old';
+    return all;
+  },{});
+
+ return newObj;
+
+
+}
+
+/* #movieRatings
+ *
+ * Takes in 2 arguments 'key' and 'value' and returns key-value pairs in an object.
+ *
+ * @param {Array}
+ * @param {Array}
+ * @return {Object}
+ */
+
+var movieRatings; 
+// = function(arr1,arr2){
+//   var flatten = [].concat(...arr1);
+  
+//  var newObj = flatten.reduce(function(all,items,i){
+//     all[items] = arr2[i];
+//     return all;
+//   },{})
+//   console.log(newObj);}
+
+
+
+
+/* #sumOfAllStudents
+ *
+ * Takes in an object and returns the sum of all currently enrolled students.
+ *
+ * @param {Object}
+ * @return {Number}
+ */
+
+var sumOfAllStudents;
+
+/* #mapLanguageToCreator
+ *
+ * Takes in 3 arguments 'data', 'createdBy', and 'year' and returns key-value pairs { name: language }.
+ *
+ * @param {Object} data
+ * @param {Array} names
+ * @param {Number} year
+ * @return {Object}
+ */
+
+var mapLanguageToCreator;
+//  = function(data,names,year){
+// var obj = {};
+// var keys = Object.keys(data);
+// for(var i = 0; i < keys.length; i++){
+// console.log(data[keys[i]]);
+//   }
+// }
+/* #mapOccurrences
+ *
+ * Takes in an object and returns key-value pairs that count how many languages were created in given years { 2017: 1 }.
+ *
+ * @param {Object} data
+ * @return {Object}
+ */
+
+var mapOccurrences = function(obj){
+  var result = {};
+
+  var keys = Object.keys(obj);
+for(var i = 0; i < keys.length; i++){
+var yearCreat = obj[keys[i]].yearCreated;
+result[yearCreat]= (result[yearCreat] || 0) +1;
+
+  }
+ 
+  return result;
+
+}
+ 
+
+/* #countLanguages
+ *
+ * Takes in an object and returns the number of languages in the dataset.
+ *
+ * @param {Object}
+ * @return {Number}
+ */
+
+var countLanguages = function(obj){
+  return Object.keys(obj).length;
+}
+
+/* #phoneNumber
+ *
+ * Takes in a string and returns only the numbers in an array.
+ *
+ * @param {String} phone number
+ * @return {Array}
+ */
+
+var phoneNumber = function(str){
+  var toNum = str.match(/[0-9]/g);
+    return toNum.map(function(d){
+      return Number.parseInt(d);
+    })
+
+
+}
+
+/* #phoneNumber
+ *
+ * Takes in an object and returns the names of the tracks offered reversed.
+ *
+ * @param {Object}
+ * @return {Array}
+ */
+
+var reverseStrings = function(obj){
+var track = Object.keys((obj.devLeague.tracks));
+
+var result = track.map(function(d){
+  return d.split('').reverse().join('')
+  },[])
+
+return result;
+}
+
+/* #getAgeById
+ *
+ * Takes in an object and returns an array with the user's username and age.
+ *
+ * @param {Object}
+ * @return {Array}
+ */
+
+var getAgeById = function(obj){
+//output user3,40
+var newArr = []
+var values = Object.values(obj.data.id[3]);
+newArr.push(values[0],values[1]);
+return newArr;
+}
+
+/* #allTheStates
+ *
+ * Takes in an object and returns an array with all of the state names of where user's have lived.
+ *
+ * @param {Object}
+ * @return {Array}
+ */
+
+ 
+var allTheStates;
+/* #allTheMovies
+ *
+ * Takes in an object and returns an array of strings with all the names of each user's favorite movies.
+ *
+ * @param {Object}
+ * @return {Array}
+ */
+
+var allTheMovies;
+
+/* #addCoffeeFlavor
+ *
+ * Takes in an object and returns a new object with the name of the coffee as the key and the value as an array of flavors plus a new flavor added to each array.
+ *
+ * @param {Object}
+ * @param {String} flavor
+ * @return {Object}
+ */
+
+var addCoffeeFlavor;
+
+/* #avgCoffeePrice
+ *
+ * Takes in 2 arguments 'data' and 'number'. Returns the average price of coffee based on total/number.
+ *
+ * @param {Object}
+ * @param {Number} number of coffee types
+ * @return {Number}
+ * 
+ */
+
+var avgCoffeePrice;
+
+/* #updateBakedGoodsPrice
+ *
+ * Takes in 2 arguments 'data' and 'discountedPrice' and returns the data object with the new discountedPrice of all bakedGoods.
+ *
+ * @param {Object}
+ * @param {Number} discountedPrice
+ * @return {Number}
+ * 
+ */
+
+var updateBakedGoodsPrice;
+
+/* #costOfCoffeeOnOrder
+ *
+ * Takes in an object and returns the total cost of all coffee's on order.
+ *
+ * @param {Object}
+ * @return {Number}
+ * 
+ */
+
+var costOfCoffeeOnOrder;
+
+/* #costOfCoffeeOnOrder
+ *
+ * Takes in an array and returns a new array with all the flavors of coffee displaying only once in the array.
+ *
+ * @param {Array}
+ * @return {Array}
+ * 
+ */
+
+var uniqueCoffeeFlavors;
+
+/* #cheapestSandwich
+ *
+ * Takes in an object and returns a string with the price of the cheapest sandwich and the name of the sandwich. (eg. "$1 sandwichName")
+ *
+ * @param {Object}
+ * @return {String}
+ * 
+ */
+
+var cheapestSandwich;
+
+/* #allcafeItems
+ *
+ * Takes in an object and returns key value pairs where the key is the category product (coffee, baked goods, etc) and the value is an array of strings. (eg. { category: ['']})
+ *
+ * @param {Object}
+ * @return {String}
+ * 
+ */
+
+var allcafeItems;
+
+/* #halfOffSandwiches
+ *
+ * Takes in an 'array' and a 'number'. If the price of the item is greater than the 'number', return an object with the sandwich name as the key and the value as half the price of it's current price.
+ *
+ * @param {Array}
+ * @return {Object}
+ * 
+ */
+
+var halfOffSandwiches;
+
+/* #getNoMeatSandwiches
+ *
+ * Takes in an array and returns an object of only sandwiches with no meat as an ingredient. The key is the name of the sandwich and the value is the price of the sandwich ( eg: { sandwich1: $5 } ).
+ *
+ * @param {Array}
+ * @return {Object}
+ * 
+ */
+
+var getNoMeatSandwiches;
+
+/* #updateCoffeeInventory
+ *
+ * Takes in an object, array, and number. Should return a new object with the property 'inStock' and 'ordered', set the value to an object with key as the coffee name and the value as the new amount.
+ *
+ * @param {Array}
+ * @param {Array} amtToRemoveFromStock,
+ * @param {Number} maxStock
+ * @return {Object}
+ * 
+ */
+
+var updateCoffeeInventory;
+
+/* #findCupOfCoffee
+ *
+ * Takes in an object and number. Returns a new object with the name of the coffee as the key and the value set to true if the cup of coffee cost less than or equal to number param.
+ *
+ * @param {Object} data
+ * @param {Number} budget
+ * @return {Object}
+ * 
+ */
+
+var findCoffee;
+
+/* #totalPopulation
+ *
+ * Takes in an object and returns the total sum of the all the places every user has lived.
+ *
+ * @param {Object} data
+ * @return {Number} sum of population
+ * 
+ */
+
+var totalPopulation;
+
+/* #placesLived
+ *
+ * Takes in an object and returns a new object with 2 properties 'hometown' and 'currentLocation' and set the value to an object with the user's username as the key and the state as the value.
+ * 
+ * example:
+ * { home: {person1: 'homeState'},
+ * current: {person1: 'currState'}}
+ *
+ * @param {Object} data
+ * @return {Object} user object containing their username, state of hometown and state of currentLocation
+ * 
+ */
+
+var placesLived;
+
+/* #addSchool
+ *
+ * Takes in 3 arguments 'data', 'newSchool', and 'tracks'. Returns the 'data' object with the 'newSchool' object added. Set 'tracks' value to an array of tracks offered.
+ *
+ * @param {Object} data
+ * @return {Number} sum of population
+ * 
+ */
+
+var addSchool;
+
+/* #updateGitHubRank
+ *
+ * Takes in an object and a number. Returns a new object with a gitHubRank property set to an object with the rank of each language in the data object.
+ *
+ * @param {Object} dataObj
+ * @return {Object}
+ * 
+ */
+
+var updateGitHubRank;
+
+/* #top3rankedLang
+ *
+ * Takes in an object. Returns a new object with the property 'topRankingLanguages' and the value set to an object of the name of the language as the key and the number rank as the value.
+ *
+ * @param {Object} dataObj
+ * @return {Object}
+ * 
+ */
+
+var top3rankedLang;
+
+/* #removeIngredient
+ *
+ * Takes in an object and string. Returns a new object with the property 'availableBread' and the value set to an array of all available breads listed only once.
+ *
+ * @param {Object} dataObj
+ * @param {String} removeIng
+ * @return {Object}
+ * 
+ */
+
+var removeIngredient;
+
+/* #removeIngredient
+ *
+ * Takes in an object and returns a new object with the key as the name of the item and the value set to the price.
+ *
+ * @param {Object} dataObj
+ * @return {Object}
+ * 
+ */
+
+var getPrices;
+
+/* #addName
+ *
+ * Takes in an object and array. Returns the object with each user's full name where the first element in the array belonging to the first user, second element belonging to the second user, etc...
+ *
+ * @param {Object} newObj
+ * @param {Array} nameArray
+ * @return {Object}
+ * 
+ */
+
+var addName;
 
 module.exports = {
-  getAllUsernames: null,
-  hometownCity: null,
-  usersCurrentState: null,
-  findAdmin: null,
-  addNewMovie: null,
-  favoriteBooks: null,
-  countTracks: null,
-  newTrack: null,
-  fullTimeStatus: null,
-  studentCount: null
+  getAllUsernames: getAllUsernames,
+  hometownCity: hometownCity,
+  usersCurrentState: usersCurrentState,
+  findAdmin: findAdmin,
+  addNewMovie: addNewMovie,
+  favoriteBooks: favoriteBooks,
+  countTracks: countTracks,
+  newTrack: newTrack,
+  fullTimeStatus: fullTimeStatus,
+  bigDataTrack: bigDataTrack,
+  incrementAge: incrementAge,
+  movieRatings: null,
+  sumOfAllStudents: null,
+  mapLanguageToCreator: null,
+  mapOccurrences: mapOccurrences,
+  countLanguages: countLanguages,
+  phoneNumber: phoneNumber,
+  reverseStrings: reverseStrings,
+  getAgeById: getAgeById,
+  allTheStates: allTheStates,
+  allTheMovies: allTheMovies,
+  addCoffeeFlavor: null,
+  avgCoffeePrice: null,
+  updateBakedGoodsPrice: null,
+  costOfCoffeeOnOrder: null,
+  uniqueCoffeeFlavors: null,
+  cheapestSandwich: null,
+  allcafeItems: null,
+  halfOffSandwiches: null,
+  getNoMeatSandwiches: null,
+  updateCoffeeInventory: null,
+  findCoffee: null,
+  totalPopulation: null,
+  placesLived: null,
+  addSchool: null,
+  updateGitHubRank: null,
+  top3rankedLang: null,
+  removeIngredient: null,
+  getPrices: null,
+  addName: null
 };
